@@ -2,6 +2,7 @@ import joblib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
+import uvicorn
 
 app = FastAPI()
 
@@ -30,3 +31,7 @@ async def predecir(min_salary: int, max_salary: int, has_company_logo: bool, has
     prediccion = modelo.predict(nuevo_scaled)
     prediccion = int(prediccion[0])
     return {'prediction': prediccion}
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 10000))  # Usa el puerto asignado por Render
+    uvicorn.run(app, host="0.0.0.0", port=port)
